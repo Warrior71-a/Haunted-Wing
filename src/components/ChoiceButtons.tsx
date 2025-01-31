@@ -2,7 +2,7 @@ import React from "react";
 import { Choice } from '../types'; 
 
 interface ChoiceButtonsProps {
-  choices: Choice; // Change from Choice to Choice
+  choices: [any]; // Change from Choice to Choice
   onChoice: (choice: Choice) => void;
 }
 

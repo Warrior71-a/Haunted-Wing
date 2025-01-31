@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch"
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development",
+    "vscode:prepublish": "npm run build",
+    "start": "npm run watch && npm run vscode:prepublish",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "framer-motion": "^12.0.6",

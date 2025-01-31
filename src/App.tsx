@@ -47,7 +47,7 @@ const App: React.FC = () => {
             onChoiceSelect={handleChoice}
           />
           {currentNode.choices && (
-            <ChoiceButtons choices={currentNode.choices} onChoice={handleChoice} />
+            <ChoiceButtons choices={[currentNode.choices]} onChoice={handleChoice} /> // Pass a tuple with one choice
           )}
           {currentNode.puzzle && (
             <PuzzleInterface puzzle={currentNode.puzzle} onAnswer={handlePuzzleAnswer} />
