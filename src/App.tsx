@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { storyNodes } from './storyData';
-import { StoryNode } from './types';
+import { StoryNode, Choice } from './types';
 import StoryPanel from './components/StoryPanel';
 import ChoiceButtons from './components/ChoiceButtons';
 import PuzzleInterface from './components/PuzzleInterface';
@@ -9,11 +9,17 @@ const App: React.FC = () => {
   const [currentNodeId, setCurrentNodeId] = useState<string>('haunted_wing_start');
 
   const getNode = (nodeId: string): StoryNode | undefined => {
-    return storyNodes.find((node) => node.id === nodeId);
+    const node = storyNodes.find((node) => node.id === nodeId);
+    if (!node) {
+      console.error(`Error: Node with ID "${nodeId}" not found.`);
+      // You might want to handle this error more gracefully,
+      // e.g., by displaying an error message to the user or redirecting to a default node.
+    }
+    return node;
   };
 
-  const handleChoice = (nodeId: string) => {
-    setCurrentNodeId(nodeId);
+  const handleChoice = (choice: Choice) => {
+    setCurrentNodeId(choice.nextNodeId);
   };
 
   const handlePuzzleAnswer = (answer: string) => {
@@ -35,13 +41,13 @@ const App: React.FC = () => {
     <div className="app-container">
       {currentNode? (
         <>
-          <StoryPanel 
-          text={currentNode.text}
-  node={currentNode}
-  onChoiceSelect={(choice) => handleChoice(choice.nextNodeId)}
-/>
+          <StoryPanel
+            text={currentNode.text}
+            node={currentNode}
+            onChoiceSelect={handleChoice}
+          />
           {currentNode.choices && (
-            <ChoiceButtons choices={currentNode.choices} onChoiceClick={handleChoice} /> // Corrected prop name
+            <ChoiceButtons choices={currentNode.choices} onChoice={handleChoice} />
           )}
           {currentNode.puzzle && (
             <PuzzleInterface puzzle={currentNode.puzzle} onAnswer={handlePuzzleAnswer} />
